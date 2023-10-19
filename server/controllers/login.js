@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 exports.login = async (req, res) => {
+  console.log("sending response");
   const email = req.body.email;
   const password = req.body.password;
   if (!email || !password) {
@@ -34,11 +35,18 @@ exports.login = async (req, res) => {
       }
     );
     user.password = null;
-    res.cookie("token", token).status(200).json({
-      username: user.username,
-      streamKey: user.stream_key,
-      email: user.email,
-      message: "success",
-    });
+    res
+      .cookie("token", token, {
+        // httpOnly: true,
+        // sameSite: "none",
+        // secure: true,
+      })
+      .status(200)
+      .json({
+        username: user.username,
+        streamKey: user.stream_key,
+        email: user.email,
+        message: "success",
+      });
   }
 };

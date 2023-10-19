@@ -4,19 +4,24 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 exports.auth = (req, res, next) => {
   const token = req.cookies.token;
+  console.log("auth middeleware");
   if (!token) {
-    return res.status(500).json({
+    console.log("not token");
+    return res.status(401).json({
       success: false,
       message: "please login",
     });
   }
-  const decode = jwt.verify(token, process.env.JWT_SECRET);
-  if (!decode) {
-    return res.status(500).json({
+  try {
+    const decode = jwt.verify(token, process.env.JWT_SECRET);
+    req.UserDetails = decode;
+    console.log("sending to next");
+    next();
+  } catch (error) {
+    console.log(" error accures");
+    return res.status(401).json({
       success: false,
-      message: "login first",
+      message: "please login first",
     });
   }
-  req.UserDetails = decode;
-  next();
 };
