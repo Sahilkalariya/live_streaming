@@ -5,13 +5,20 @@ import axios from "axios";
 export const Stream = () => {
   const { username: name, streamKey } = useContext(UserContext);
   const [title, setTitle] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   function saveTitle(e) {
-    e.preventDefault();
-    axios.post("/streamInfo", {
-      streamKey,
-      title,
-    });
+    try {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("streamKey", streamKey);
+      formData.append("image", selectedFile);
+      formData.append("title", title);
+      const response = axios.post("/streamInfo", formData);
+      if (response.status === 200) alert("Stream Info and thumbnail Saved");
+    } catch (error) {
+      alert(" some error occured please upload again");
+    }
   }
 
   return (
@@ -25,8 +32,8 @@ export const Stream = () => {
         </p>
         <ol className=" text-gray-800 font-mono text-2xl">
           <li className="mb-2">
-            <span className=" font-bold">Step 1</span>: Give Title to your
-            stream
+            <span className=" font-bold">Step 1</span>: Give Title and Thumbnail
+            of your stream
             <form
               className=" mt-4"
               onSubmit={(e) => {
@@ -42,6 +49,18 @@ export const Stream = () => {
                   value={title}
                   onChange={(e) => {
                     setTitle(e.target.value);
+                  }}
+                  required
+                ></input>
+              </div>
+              <div class="mb-4">
+                <input
+                  type="file"
+                  id="image"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Your Title Here"
+                  onChange={(e) => {
+                    setSelectedFile(e.target.files[0]);
                   }}
                   required
                 ></input>

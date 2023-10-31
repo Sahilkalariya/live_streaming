@@ -21,7 +21,16 @@ export const Card = ({ stream }) => {
       className=" px-2 py-2 w-full lg:w-1/4 md:w-1/2 sm:w-full cursor-pointer"
     >
       <div className=" flex flex-col bg-white  p-3 rounded-md">
-        <div className=" p-2 bg-slate-100 h-52 rounded-xl">Thumbnail</div>
+        <div className=" p-2 bg-slate-100 h-52 rounded-xl">
+          <img
+            className=" max-h-full"
+            src={
+              process.env.REACT_APP_BACKEND_URL +
+              "thumbnail/" +
+              stream.thumbnail
+            }
+          ></img>
+        </div>
         <div className=" mt-2 p-3 pt-2  bg-slate-100 h-20 rounded-md flex flex-col">
           <div className=" flex flex-raw gap-2 item-start">
             <div className=" flex flex-col justify-items-center">

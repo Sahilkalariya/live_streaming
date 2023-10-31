@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { lodash, uniqBy } from "lodash";
 import io from "socket.io-client";
 import { UserContext } from "../UserContext";
+import { Link } from "react-router-dom";
 
 export const Comment = ({ streamKey }) => {
   const [comments, setComments] = useState([]);
@@ -86,6 +87,17 @@ export const Comment = ({ streamKey }) => {
             </button>
           </div>
         </form>
+      )}
+      {!name && (
+        <div className=" bg-gray-200 flex justify-center items-center text-xl">
+          Please &nbsp;
+          <span>
+            <Link className=" text-red-500" to="/auth">
+              Login
+            </Link>
+          </span>
+          &nbsp; to comment
+        </div>
       )}
     </div>
   );

@@ -5,10 +5,10 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Comment } from "./Comment";
 import { UserContext } from "../UserContext";
+
 const LivestreamPlayer = ({}) => {
   const { streamKey } = useParams();
   const { streamInfo, setStreamInfo } = useContext(UserContext);
-  console.log(typeof streamInfo, ",  ,", streamInfo, ",");
 
   const getStreamInfo = async () => {
     try {
@@ -47,11 +47,11 @@ const LivestreamPlayer = ({}) => {
             "live/" +
             streamKey +
             "/index.m3u8", // URL to your live stream
+
           type: "application/x-mpegURL", // HLS stream type
         },
       ],
     });
-
     // Cleanup when the component unmounts
     return () => {
       if (player) {

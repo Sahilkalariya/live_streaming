@@ -6,7 +6,6 @@ const StreamInfo = require("../model/StreamInfo");
 exports.liveStreams = async (req, res) => {
   const streamers = await exctractData();
   res.json({
-    hii: "helo",
     streamers,
   });
 };
@@ -18,13 +17,14 @@ const exctractData = async () => {
     await Promise.all(
       Object.keys(data.live).map(async (streamer) => {
         const user = await User.findOne({ stream_key: streamer });
-        const title = await StreamInfo.findOne({ streamKey: streamer });
+        const info = await StreamInfo.findOne({ streamKey: streamer });
         if (user) {
           currentLive.push({
             streamId: streamer,
             streamer: user.username,
             started: data.live[streamer].publisher.connectCreated,
-            title: title?.title,
+            title: info?.title,
+            thumbnail: info?.thumbnail,
           });
         }
       })

@@ -34,13 +34,8 @@ app.use("/api/profile", auth, profile);
 app.use("/api/liveStreams", liveStreams);
 app.use("/api/streamInfo", streamInfo);
 
-// app.listen(4000, () => {
-//   console.log("server is listing");
-// });
+app.use("/thumbnail",express.static(__dirname + "/uploads"));
 init(app);
-// server.listen(4000, () => {
-//   console.log("backend server is listning on 4000");
-// });
 
 //node mediaserver running
 nms.run();
